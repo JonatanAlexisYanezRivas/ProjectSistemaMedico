@@ -10,7 +10,7 @@
 	<h1>Sistema médico</h1>
 	
 	<button><a href="${pageContext.request.contextPath}/Controlador">Pacientes</a></button>
-	<button><a href="vistas/Pacientes.jsp">Medicos</a></button>
+	<button><a href="${pageContext.request.contextPath}/ServletMedicos">Medicos</a></button>
 	
 	
 	

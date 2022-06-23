@@ -8,21 +8,21 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.html.HTMLEditorKit.Parser;
 
+import Clases.Medicos;
 import Clases.Pacientes;
 
 /**
- * Servlet implementation class Controlador
+ * Servlet implementation class ServletMedicos
  */
-@WebServlet("/Controlador")
-public class Controlador extends HttpServlet {
+@WebServlet("/ServletMedicos")
+public class ServletMedicos extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public Controlador() {
+    public ServletMedicos() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,7 +34,7 @@ public class Controlador extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-      RequestDispatcher rd = request.getRequestDispatcher("vistas/Pacientes.jsp");
+      RequestDispatcher rd = request.getRequestDispatcher("vistas/Medicos.jsp");
 
       rd.forward(request, response);
 
@@ -51,42 +51,30 @@ public class Controlador extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		
+		String btnRegistro = request.getParameter("btnRegistrar");
 		
-		String btnRegistrar = request.getParameter("btnRegistrar");
-		
-		if(btnRegistrar!=null) {
+		if(btnRegistro!=null) {
+			int id = Integer.parseInt(request.getParameter("idMedico"));
+			String nombre = request.getParameter("nombreMedico");
+			String apellido = request.getParameter("apellidoMedico");
+			int idEspecialidad = Integer.parseInt(request.getParameter("especialidad"));
 			
-			int id = Integer.parseInt(request.getParameter("id"));
-			String nombre = request.getParameter("nombre");
-			String apellido = request.getParameter("apellido");
-			String fecha = request.getParameter("fecha");
-			String domicilio = request.getParameter("domicilio");
-			int idPais = Integer.parseInt(request.getParameter("idPais"));
-			String telefono = request.getParameter("telefono");
-			String email = request.getParameter("email");
-			String observacion = request.getParameter("observacion");
-			
-			Pacientes insertar = new Pacientes(id, nombre, apellido, fecha, domicilio, idPais, telefono, email, observacion);
-			
-			if(insertar.insert()) request.setAttribute("registro", "Registro exitoso");
+			Medicos insertar = new Medicos(id, nombre, apellido, idEspecialidad);
+			if(insertar.insert()) { 
+				request.setAttribute("registro", "Registro exitoso");
+				insertar.insertMedicoEspecialidad();
+			}
 		}
-		
 		
 		String btnEditar = request.getParameter("btnEditar");
 		
 		if(btnEditar!=null) {
 			
-			int id = Integer.parseInt(request.getParameter("idM"));
-			String nombre = request.getParameter("nombreM");
-			String apellido = request.getParameter("apellidoM");
-			String fecha = request.getParameter("fechaM");
-			String domicilio = request.getParameter("domicilioM");
-			int idPais = Integer.parseInt(request.getParameter("paisM"));
-			String telefono = request.getParameter("telefonoM");
-			String email = request.getParameter("emailM");
-			String observacion = request.getParameter("observacionM");
+			int id = Integer.parseInt(request.getParameter("idMedicoM"));
+			String nombre = request.getParameter("nombreMedicoM");
+			String apellido = request.getParameter("apellidoMedicoM");
 			
-			Pacientes editar = new Pacientes(id, nombre, apellido, fecha, domicilio, idPais, telefono, email, observacion);
+			Medicos editar = new Medicos(id, nombre, apellido);
 			
 			if(editar.update()) request.setAttribute("registro", "Registro actualizado");
 			
@@ -100,6 +88,7 @@ public class Controlador extends HttpServlet {
 			
 			if(eliminar.delete()) request.setAttribute("registro", "Registro eliminado");
 		}
+		
 		
 		doGet(request, response);
 	}

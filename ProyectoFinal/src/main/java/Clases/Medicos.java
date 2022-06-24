@@ -107,6 +107,25 @@ public class Medicos extends Connector{
 		return estado;
 	}
 	
+	public boolean deleteMedicoEspecialidad() {
+		boolean estado;
+		PreparedStatement ps = null;
+		Connection con = getConexion();
+		String sql = "delete from medicoespecialidad where id_Medico = ?";
+		try {
+			ps= con.prepareStatement(sql);
+			ps.setInt(1,getId_medico());
+			ps.execute();	
+			estado = true;
+		}catch (SQLException e) {
+			System.out.println(e);
+			estado = false;
+		}
+		return estado;
+	}
+	
+	
+	
 	public boolean insertMedicoEspecialidad() {
 		boolean estado;
 		PreparedStatement ps = null;

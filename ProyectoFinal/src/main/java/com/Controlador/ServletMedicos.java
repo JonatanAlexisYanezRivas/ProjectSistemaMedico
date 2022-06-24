@@ -54,39 +54,49 @@ public class ServletMedicos extends HttpServlet {
 		String btnRegistro = request.getParameter("btnRegistrar");
 		
 		if(btnRegistro!=null) {
-			int id = Integer.parseInt(request.getParameter("idMedico"));
-			String nombre = request.getParameter("nombreMedico");
-			String apellido = request.getParameter("apellidoMedico");
-			int idEspecialidad = Integer.parseInt(request.getParameter("especialidad"));
-			
-			Medicos insertar = new Medicos(id, nombre, apellido, idEspecialidad);
-			if(insertar.insert()) { 
-				request.setAttribute("registro", "Registro exitoso");
-				insertar.insertMedicoEspecialidad();
+			try {
+				int id = Integer.parseInt(request.getParameter("idMedico"));
+				String nombre = request.getParameter("nombreMedico");
+				String apellido = request.getParameter("apellidoMedico");
+				int idEspecialidad = Integer.parseInt(request.getParameter("especialidad"));
+				
+				Medicos insertar = new Medicos(id, nombre, apellido, idEspecialidad);
+				if(insertar.insert()) { 
+					request.setAttribute("registro", "Registro exitoso");
+					insertar.insertMedicoEspecialidad();
+				}
+			}catch (Exception e) {
+				request.setAttribute("registro", "Verificar sus datos");
 			}
 		}
 		
 		String btnEditar = request.getParameter("btnEditar");
 		
 		if(btnEditar!=null) {
-			
-			int id = Integer.parseInt(request.getParameter("idMedicoM"));
-			String nombre = request.getParameter("nombreMedicoM");
-			String apellido = request.getParameter("apellidoMedicoM");
-			
-			Medicos editar = new Medicos(id, nombre, apellido);
-			
-			if(editar.update()) request.setAttribute("registro", "Registro actualizado");
+			try {
+				int id = Integer.parseInt(request.getParameter("idMedicoM"));
+				String nombre = request.getParameter("nombreMedicoM");
+				String apellido = request.getParameter("apellidoMedicoM");
+				
+				Medicos editar = new Medicos(id, nombre, apellido);
+				
+				if(editar.update()) request.setAttribute("registro", "Registro actualizado");
+			}catch (Exception e) {
+				request.setAttribute("registro", "Verificar sus datos");
+			}
 			
 		}
 		
 		String btnEliminar = request.getParameter("btnEliminar");
 		
 		if(btnEliminar!=null) {
-			int id = Integer.parseInt(request.getParameter("idM"));
-			Pacientes eliminar = new Pacientes(id);
+			int id = Integer.parseInt(request.getParameter("idMedicoM"));
+			Medicos eliminar = new Medicos(id);
 			
-			if(eliminar.delete()) request.setAttribute("registro", "Registro eliminado");
+			if(eliminar.deleteMedicoEspecialidad()) {
+				request.setAttribute("registro", "Registro eliminado");
+				eliminar.delete();
+			}
 		}
 		
 		

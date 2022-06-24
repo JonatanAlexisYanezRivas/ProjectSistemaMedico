@@ -8,7 +8,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.text.html.HTMLEditorKit.Parser;
+
 
 import Clases.Pacientes;
 
@@ -55,26 +55,31 @@ public class Controlador extends HttpServlet {
 		String btnRegistrar = request.getParameter("btnRegistrar");
 		
 		if(btnRegistrar!=null) {
-			
-			int id = Integer.parseInt(request.getParameter("id"));
-			String nombre = request.getParameter("nombre");
-			String apellido = request.getParameter("apellido");
-			String fecha = request.getParameter("fecha");
-			String domicilio = request.getParameter("domicilio");
-			int idPais = Integer.parseInt(request.getParameter("idPais"));
-			String telefono = request.getParameter("telefono");
-			String email = request.getParameter("email");
-			String observacion = request.getParameter("observacion");
-			
-			Pacientes insertar = new Pacientes(id, nombre, apellido, fecha, domicilio, idPais, telefono, email, observacion);
-			
-			if(insertar.insert()) request.setAttribute("registro", "Registro exitoso");
+			try {
+				int id = Integer.parseInt(request.getParameter("id"));
+				String nombre = request.getParameter("nombre");
+				String apellido = request.getParameter("apellido");
+				String fecha = request.getParameter("fecha");
+				String domicilio = request.getParameter("domicilio");
+				int idPais = Integer.parseInt(request.getParameter("idPais"));
+				String telefono = request.getParameter("telefono");
+				String email = request.getParameter("email");
+				String observacion = request.getParameter("observacion");
+				
+				Pacientes insertar = new Pacientes(id, nombre, apellido, fecha, domicilio, idPais, telefono, email, observacion);
+				
+				if(insertar.insert()) request.setAttribute("registro", "Registro exitoso");
+			}catch (Exception e) {
+				 request.setAttribute("registro", "Por favor verificar sus datos");
+			}
 		}
 		
 		
 		String btnEditar = request.getParameter("btnEditar");
 		
 		if(btnEditar!=null) {
+			
+			try {
 			
 			int id = Integer.parseInt(request.getParameter("idM"));
 			String nombre = request.getParameter("nombreM");
@@ -89,6 +94,9 @@ public class Controlador extends HttpServlet {
 			Pacientes editar = new Pacientes(id, nombre, apellido, fecha, domicilio, idPais, telefono, email, observacion);
 			
 			if(editar.update()) request.setAttribute("registro", "Registro actualizado");
+			}catch (Exception e) {
+				 request.setAttribute("registro", "Por favor verificar sus datos");
+			}
 			
 		}
 		

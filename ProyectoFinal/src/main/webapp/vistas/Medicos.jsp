@@ -61,9 +61,12 @@
 				
 			}%>
 		</table>
-
+		
+		<h2>${registro}</h2>
+		
+		<div class="container container-btn"><a class="btn btn-success" href="${pageContext.request.contextPath}/">Regresar al menu</a></div>
 	</div>
-	<h2>${registro}</h2>
+	
 	
 </body>
 </html>
